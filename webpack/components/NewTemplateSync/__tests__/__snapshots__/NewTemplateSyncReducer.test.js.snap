@@ -6,6 +6,7 @@ Object {
   "exportSettings": Array [],
   "importSettings": Array [],
   "loadingSettings": false,
+  "proxySettings": Array [],
 }
 `;
 
@@ -15,6 +16,7 @@ Object {
   "exportSettings": Array [],
   "importSettings": Array [],
   "loadingSettings": true,
+  "proxySettings": Array [],
 }
 `;
 

@@ -32,15 +32,15 @@ module ForemanTemplates
       @dir = Dir.mktmpdir
 
       begin
-        logger.debug "cloned '#{@repo}' to '#{@dir}'"
-        gitrepo = Git.clone(@repo, @dir)
-        if @branch
+        gitrepo = init_git_repo
+        if @branch.present?
           logger.debug "checking out branch '#{@branch}'"
           gitrepo.checkout(@branch)
         end
 
         parse_files!
       ensure
+        FileUtils.remove_entry_secure(@proxy_cert) if @proxy_cert.present? && File.exist?(@proxy_cert)
         FileUtils.remove_entry_secure(@dir) if File.exist?(@dir)
       end
     end

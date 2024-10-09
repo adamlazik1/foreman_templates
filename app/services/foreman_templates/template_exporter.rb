@@ -31,8 +31,7 @@ module ForemanTemplates
       @dir = Dir.mktmpdir
       return if branch_missing?
 
-      git_repo = Git.clone(@repo, @dir)
-      logger.debug "cloned '#{@repo}' to '#{@dir}'"
+      git_repo = init_git_repo
 
       setup_git_branch git_repo
       dump_files!
@@ -57,6 +56,7 @@ module ForemanTemplates
                  e.message
                end
     ensure
+      FileUtils.remove_entry_secure(@proxy_cert) if @proxy_cert.present? && File.exist?(@proxy_cert)
       FileUtils.remove_entry_secure(@dir) if File.exist?(@dir)
     end
 

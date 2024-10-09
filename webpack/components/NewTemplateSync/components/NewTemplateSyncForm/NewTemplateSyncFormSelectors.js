@@ -3,6 +3,7 @@ import { createSelector } from 'reselect';
 import {
   selectImportSettings,
   selectExportSettings,
+  selectProxySettings,
 } from '../../NewTemplateSyncSelectors';
 
 export const transformInitialValues = settings =>
@@ -14,8 +15,18 @@ export const transformInitialValues = settings =>
 export const selectInitialFormValues = createSelector(
   selectImportSettings,
   selectExportSettings,
-  (importSettings, exportSettings) => ({
-    import: transformInitialValues(importSettings),
-    export: transformInitialValues(exportSettings),
-  })
+  selectProxySettings,
+  (importSettings, exportSettings, proxySettings) => {
+    const transformedProxySettings = transformInitialValues(proxySettings);
+    return {
+      import: {
+        ...transformInitialValues(importSettings),
+        ...transformedProxySettings,
+      },
+      export: {
+        ...transformInitialValues(exportSettings),
+        ...transformedProxySettings,
+      },
+    };
+  }
 );
